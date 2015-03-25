@@ -16,6 +16,7 @@ public class MyRenderer implements GLSurfaceView.Renderer{
 
     private static int nextId = 0;
     public static ArrayList<BaseObject> actors = new ArrayList<BaseObject>();
+    public static ArrayList<Water> waterActors = new ArrayList<Water>();
 
     private BoxObject bob;
 
@@ -55,6 +56,7 @@ public class MyRenderer implements GLSurfaceView.Renderer{
 
         bob.setPosition(new Vec2(screenW / 2, 100));
         bob.createPhysicsBody(0, 0.5f, 0.8f);
+
     }
 
     @Override
@@ -64,18 +66,21 @@ public class MyRenderer implements GLSurfaceView.Renderer{
         long startTime = System.currentTimeMillis();
 
         Physics.setGravity(grav);
-        if(System.currentTimeMillis() - spawnDelay > 100) {
+        if(System.currentTimeMillis() - spawnDelay > 5000) {
 
-            BoxObject obj = new BoxObject((float)Math.random() * 50, (float)Math.random() * 50);
-            obj.color = new Color3();
-            obj.color.r = (int)(Math.random() * 255);
-            obj.color.g = (int)(Math.random() * 255);
-            obj.color.b = (int)(Math.random() * 255);
-
-            obj.setPosition(new Vec2(screenW / 2, screenH / 2));
-            obj.createPhysicsBody(1.0f, 0.2f, 0.5f);
+//            BoxObject obj = new BoxObject((float)Math.random() * 50, (float)Math.random() * 50);
+//            obj.color = new Color3();
+//            obj.color.r = (int)(Math.random() * 255);
+//            obj.color.g = (int)(Math.random() * 255);
+//            obj.color.b = (int)(Math.random() * 255);
+//
+//            obj.setPosition(new Vec2(screenW / 2, screenH / 2));
+//            obj.createPhysicsBody(1.0f, 0.2f, 0.5f);
 
             spawnDelay = System.currentTimeMillis();
+
+            Water w = new Water((float) Math.random() * 50);
+            w.setPosition( new Vec2(screenW/2, screenH/2));
         }
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
@@ -85,6 +90,10 @@ public class MyRenderer implements GLSurfaceView.Renderer{
         // Draw everything
         for(BaseObject obj : actors) {
             obj.draw(gl);
+        }
+
+        for(Water w : waterActors){
+            w.draw(gl);
         }
 
         // Calculate how much time rendering took

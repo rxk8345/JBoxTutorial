@@ -157,4 +157,8 @@ public class Physics {
             running = false;
         }
     }
+
+    public static World getWorld(){
+        return pThread.physicsWorld;
+    }
 }
